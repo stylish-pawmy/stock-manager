@@ -19,4 +19,10 @@ public class HomeController {
         page.addAttribute("user", userDetails.getUsername());
         return "dashboard";
     }
+
+    @GetMapping("/error")
+    public String getError(Model page)
+    {
+        return "error";
+    }
 }

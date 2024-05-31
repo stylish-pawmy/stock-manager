@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Nouvel Article</title>
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min-jsf.css} "/>
+    <link rel="stylesheet" type="text/css" th:href="@{/templates/article/slick-form.css}" />
+</head>
+<body>
+    <div class="container">
+        <div class="text-center mt-5">
+            <h1>Nouvel Utilisateur</h1>
+        </div>
+        <div class="row">
+            <div class="col-lg-7 mx-auto">
+                <div class="card-body bg-light p-2">
+                    <div class="container">
+                        <form method="post"
+                              th:object="${user}"
+                              th:action="@{/ajouter-utilisateur}">
+
+                            <div class="controls">
+                                <div class="row mt-1">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="username">Nom D'utilisateur</label>
+                                            <input type="text"
+                                                   id="username"
+                                                   th:field="*{username}"
+                                                   class="form-control"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-1">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="password">Mot de Passe</label>
+                                            <input type="password"
+                                                   id="password"
+                                                   th:field="*{password}"
+                                                   class="form-control"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-1">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="role">Role</label>
+                                            <select id="role"
+                                                    th:field="*{roleId}"
+                                                    class="form-control"
+                                            >
+                                                <option th:each="r : ${roles}"
+                                                        th:value="${r.id}"
+                                                        th:text="${r.description}"
+                                                ></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <input hidden="hidden" th:field="*{id}"/>
+
+                                <div class="row mt-4">
+                                    <div class="col-md-6">
+                                        <a class="btn btn-secondary w-100" th:href="@{/utilisateurs}">Annuler</a>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button type="submit" class="btn btn-success w-100">Sauvegarder</button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.min.js}"></script>
+</body>
+</html>

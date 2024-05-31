@@ -1,19 +1,13 @@
-package org.example.gestionstock.Models;
+package org.example.gestionstock.Models.Dtos;
 
 import jakarta.persistence.*;
+import org.example.gestionstock.Models.Role;
 
-import java.util.ArrayList;
-import java.util.List;
-
-@Entity(name = "application_user")
-public class ApplicationUser {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+public class CreateApplicationUser {
     private int id;
     private String username;
     private String password;
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Role role;
+    private int roleId;
 
     public int getId() {
         return id;
@@ -39,11 +33,11 @@ public class ApplicationUser {
         this.password = password;
     }
 
-    public Role getRole() {
-        return role;
+    public int getRoleId() {
+        return roleId;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
     }
 }
