@@ -3,39 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <title>Nouvel Article</title>
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min-jsf.css} "/>
+    <link rel="stylesheet" type="text/css" th:href="@{/slick-form.css}" />
 </head>
 <body>
-    <h1>Nouvel Article</h1>
-    <form method="post" th:object="${article}" th:action="@{/ajouter-article}">
-        <label for="name">Nom</label>
-        <input height="20px"
-               width="60px"
-               type="text"
-               id="name"
-               th:field="*{name}"
-        />
-        <br />
+    <div class="container">
+        <div class="text-center mt-5">
+            <h1>Nouvel Article</h1>
+        </div>
+        <div class="row">
+            <div class="col-lg-7 mx-auto">
+                <div class="card-body bg-light p-2">
+                    <div class="container">
+                        <form method="post"
+                              th:object="${article}"
+                              th:action="@{/ajouter-article}">
 
-        <label for="description">Description</label>
-        <textarea height="40px"
-                  width="60px"
-                  id="description"
-                  th:field="*{description}"
-        ></textarea>
-        <br />
+                            <div class="controls">
+                                <div class="row mt-1">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="name">Nom</label>
+                                            <input type="text"
+                                                   id="name"
+                                                   th:field="*{name}"
+                                                   class="form-control"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
 
-        <label for="quantity">Quantity</label>
-        <input height="20px"
-               width="60px"
-               type="number"
-               id="quantity"
-               th:field="*{quantity}"
-        />
-        <br />
+                                <div class="row mt-1">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="quantity">Quantity</label>
+                                            <input type="number"
+                                                   id="quantity"
+                                                   th:field="*{quantity}"
+                                                   class="form-control"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
 
-        <input hidden="hidden" th:field="*{id}" />
+                                <div class="row mt-1">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label for="description">Description</label>
+                                            <textarea id="description"
+                                                      th:field="*{description}"
+                                                      class="form-control"
+                                                      maxlength="250"
+                                            ></textarea>
+                                        </div>
+                                    </div>
+                                </div>
 
-        <button type="submit">Save</button>
-    </form>
+                                <input hidden="hidden" th:field="*{id}"/>
+
+                                <div class="row mt-4">
+                                    <div class="col-md-6">
+                                        <a class="btn btn-secondary w-100" th:href="@{/articles}">Annuler</a>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button type="submit" class="btn btn-success w-100">Sauvegarder</button>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script th:src="@{/webjars/bootstrap/5.3.3/js/bootstrap.min.js}"></script>
 </body>
 </html>
