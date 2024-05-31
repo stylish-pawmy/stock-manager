@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Nouvel Article</title>
+</head>
+<body>
+    <h1>Nouvel Article</h1>
+    <form method="post" th:object="${article}" th:action="@{/ajouter-article}">
+        <label for="name">Nom</label>
+        <input height="20px"
+               width="60px"
+               type="text"
+               id="name"
+               th:field="*{name}"
+        />
+        <br />
+
+        <label for="description">Description</label>
+        <textarea height="40px"
+                  width="60px"
+                  id="description"
+                  th:field="*{description}"
+        ></textarea>
+        <br />
+
+        <label for="quantity">Quantity</label>
+        <input height="20px"
+               width="60px"
+               type="number"
+               id="quantity"
+               th:field="*{quantity}"
+        />
+        <br />
+
+        <input hidden="hidden" th:field="*{id}" />
+
+        <button type="submit">Save</button>
+    </form>
+</body>
+</html>
