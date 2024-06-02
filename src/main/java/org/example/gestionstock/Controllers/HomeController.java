@@ -20,6 +20,12 @@ public class HomeController {
         return "dashboard";
     }
 
+    @GetMapping("/login")
+    public String getLogin()
+    {
+        return "login";
+    }
+
     @GetMapping("/error")
     public String getError(Model page)
     {
