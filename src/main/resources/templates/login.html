@@ -5,15 +5,36 @@
   <title>Connection</title>
   <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.3.3/css/bootstrap.min-jsf.css} "/>
 </head>
-<body class="bg-light">
+<body class="bg-dark">
   <div class="container min-vh-100 align-content-center">
     <div class="row">
       <div class="col-md-4 mx-auto">
-        <div class="card-body bg-white p-4 rounded-1">
+        <div class="card-body bg-light p-4 rounded-1">
           <div class="container">
             <div class="row">
               <div class="row mb-4">
-                <h3 class="text-start align-content-center">Connectez-vous pour continuer...</h3>
+                <h3 class="text-start">Connectez-vous pour continuer...</h3>
+              </div>
+              <div class="row mb-4">
+                <div class="col text-center">
+                  <img th:src="@{graphics/lock.png}" alt="lock" />
+                </div>
+              </div>
+              <div class="row mb-4">
+              </div>
+              <div th:unless="${param.error == null}" class="row">
+                <div class="col">
+                  <div class="mb-3">
+                    <p class="alert-danger alert">Erreur lors de la connection.</p>
+                  </div>
+                </div>
+              </div>
+              <div th:unless="${param.logout == null}" class="row">
+                <div class="col">
+                  <div class="mb-3">
+                    <p class="alert-success alert">Deconnection avec succès.</p>
+                  </div>
+                </div>
               </div>
                 <form th:action="@{/login}" method="post">
                   <div class="row">
@@ -21,7 +42,9 @@
                       <div class="mb-3 form-group">
                         <label for="username" class="form-label">Nom d'utilisateur</label>
                         <input type="text" class="form-control"
-                               id="username" name="username" placeholder="votre nom d'utilisateur">
+                               id="username" name="username" placeholder="votre nom d'utilisateur"
+                               aria-selected="true"
+                        >
                       </div>
                     </div>
                   </div>

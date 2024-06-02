@@ -6,6 +6,8 @@ import org.example.gestionstock.Models.Role;
 import org.example.gestionstock.Repositories.RoleRepository;
 import org.example.gestionstock.Repositories.UserRepository;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,23 +31,37 @@ public class ApplicationUserController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/utilisateurs")
-    public String getUtilisateurs(Model model)
+    public String getUtilisateurs(Model page)
     {
         List<ApplicationUser> users = userRepository.findAll();
-        model.addAttribute("users", users);
+        page.addAttribute("users", users);
+
+        UserDetails userDetails = (UserDetails) SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal();
+
+        page.addAttribute("principal", userDetails);
+        page.addAttribute("principalRole", userDetails
+                .getAuthorities().stream().findFirst().get().getAuthority());
 
         return "utilisateur/utilisateurs";
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/ajouter-utilisateur")
-    public String getAjouterUtilisateur(Model model)
+    public String getAjouterUtilisateur(Model page)
     {
         CreateApplicationUser user = new CreateApplicationUser();
-        model.addAttribute("user", user);
+        page.addAttribute("user", user);
 
         List<Role> roles = roleRepository.findAll();
-        model.addAttribute("roles", roles);
+        page.addAttribute("roles", roles);
+
+        UserDetails userDetails = (UserDetails) SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal();
+
+        page.addAttribute("principal", userDetails);
+        page.addAttribute("principalRole", userDetails
+                .getAuthorities().stream().findFirst().get().getAuthority());
 
         return "utilisateur/ajouter-utilisateur";
     }
@@ -53,7 +69,7 @@ public class ApplicationUserController {
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/modifier-utilisateur")
     public String getModifierUtilisateur(
-            Model model,
+            Model page,
             @RequestParam("user_id") int id
     )
     {
@@ -65,12 +81,19 @@ public class ApplicationUserController {
         userData.setPassword(user.getPassword());
         userData.setRoleId(user.getRole().getId());
 
-        model.addAttribute("user", userData);
+        page.addAttribute("user", userData);
+
+        UserDetails userDetails = (UserDetails) SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal();
+
+        page.addAttribute("principal", userDetails);
+        page.addAttribute("principalRole", userDetails
+                .getAuthorities().stream().findFirst().get().getAuthority());
 
 
 
         List<Role> roles = roleRepository.findAll();
-        model.addAttribute("roles", roles);
+        page.addAttribute("roles", roles);
 
         return "utilisateur/ajouter-utilisateur";
     }
@@ -88,6 +111,13 @@ public class ApplicationUserController {
         Role role = roleRepository.findById(userData.getRoleId()).orElse(null);
         user.setRole(role);
 
+        UserDetails userDetails = (UserDetails) SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal();
+
+        page.addAttribute("principal", userDetails);
+        page.addAttribute("principalRole", userDetails
+                .getAuthorities().stream().findFirst().get().getAuthority());
+
         userRepository.save(user);
 
         page.addAttribute("users", userRepository.findAll());
@@ -100,6 +130,13 @@ public class ApplicationUserController {
     {
         userRepository.deleteById(id);
         page.addAttribute("users", userRepository.findAll());
+
+        UserDetails userDetails = (UserDetails) SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal();
+
+        page.addAttribute("principal", userDetails);
+        page.addAttribute("principalRole", userDetails
+                .getAuthorities().stream().findFirst().get().getAuthority());
 
         return "utilisateur/utilisateurs";
     }

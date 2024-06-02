@@ -16,7 +16,10 @@ public class HomeController {
          UserDetails userDetails = (UserDetails) SecurityContextHolder
                  .getContext().getAuthentication().getPrincipal();
 
-        page.addAttribute("user", userDetails.getUsername());
+        page.addAttribute("principal", userDetails);
+        page.addAttribute("principalRole", userDetails
+                .getAuthorities().stream().findFirst().get().getAuthority());
+
         return "dashboard";
     }
 

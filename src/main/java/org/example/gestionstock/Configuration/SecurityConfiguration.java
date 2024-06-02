@@ -11,6 +11,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
+import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
+import org.springframework.security.web.util.RedirectUrlBuilder;
+import org.springframework.web.util.UriBuilder;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
+import java.net.URL;
 
 @Configuration
 @EnableWebSecurity
@@ -28,6 +36,7 @@ public class SecurityConfiguration {
         http
                 .authorizeHttpRequests(request -> {
                     request.requestMatchers("/resources/**").permitAll()
+                            .requestMatchers("graphics/**").permitAll()
                             .requestMatchers("/webjars/bootstrap/**").permitAll()
                             .anyRequest().authenticated();
                 });
@@ -36,6 +45,21 @@ public class SecurityConfiguration {
             form.loginPage("/login")
                     .usernameParameter("username")
                     .passwordParameter("password").permitAll();
+        });
+
+        http.csrf(option -> {
+            option.disable();
+        });
+
+        var logoutHandler = new SimpleUrlLogoutSuccessHandler();
+
+        http.logout(logout -> {
+            var url = UriComponentsBuilder
+                    .fromUriString("/login")
+                    .build()
+                    .toString();
+
+            logout.logoutSuccessUrl(url);
         });
 
         return http.build();
